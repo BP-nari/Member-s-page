@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>従業員専用ページ</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f9fc;
+      color: #333;
+    }
+    header {
+      background: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: white;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      text-align: center;
+      background: #3b82f6;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+    .button:hover {
+      background: #1d4ed8;
+    }
+    .accordion {
+      background: #f9fafb;
+      margin: 1rem 0;
+      border: 1px solid #e5e7eb;
+      border-radius: 0.5rem;
+    }
+    .accordion summary {
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      background: #e5e7eb;
+      border-radius: 0.5rem;
+    }
+    .accordion p {
+      padding: 1rem;
+      margin: 0;
+    }
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      border-bottom: 2px solid #e5e7eb;
+      padding-bottom: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>従業員専用ページ</header>
+  <div class="container">
+    <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button" target="_blank">研修動画一覧</a>
+    <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button" target="_blank">セミナー動画一覧</a>
+    <a href="https://docs.google.com/forms/d/1qQVR3gyzOgpCOBnpODx7hThGyGNn7Yv7y9V4q13hvVo/edit" class="button" target="_blank">アポ用動画送信フォーム</a>
+    <a href="https://docs.google.com/forms/d/1JXesz5skCjH-wn_W2IL6LnLSmYHeDE4sajsSWs5QCVI/edit" class="button" target="_blank">クローザー用動画送信フォーム</a>
+    <a href="https://docs.google.com/forms/d/1MtbSz4mrnEiIKTml7ClmARGxYqYBCNje4jXcPiVKpW0/edit" class="button" target="_blank">計上 段取り用動画送信フォーム</a>
+    <a href="https://docs.google.com/forms/d/1S53kcBd9FtDo8D_HFVNLR5Sv3t05p_6tckpsBVKDziw/edit" class="button" target="_blank">戸津さん研修送信用動画送信フォーム</a>
+    <a href="https://x.gd/EiM5d" class="button" target="_blank">セミナー動画用送信フォーム</a>
+    <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank">進捗確認</a>
+
+    <h2>お知らせ</h2>
+    <div class="accordion">
+      <details>
+        <summary>従業員向けお知らせ</summary>
+        <p>あとで編集</p>
+      </details>
+    </div>
+    <div class="accordion">
+      <details>
+        <summary>入社前の方向けお知らせ</summary>
+        <p>後で入れる</p>
+      </details>
+    </div>
+    <div class="accordion">
+      <details>
+        <summary>新入社員向けお知らせ</summary>
+        <p>後で入れる</p>
+      </details>
+    </div>
+  </div>
+</body>
+</html>
