@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>従業員専用ページ</title>
+  <style>
+    body {
+      font-family: "MS PGothic", "Comic Sans MS", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('https://i.imgur.com/5N8a2uT.gif'); /* キラキラ背景GIF風 */
+      color: #ff1493;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    header {
+      background: linear-gradient(90deg, #ff69b4, #ffb6c1);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      border-bottom: 4px dashed #fff;
+      text-shadow: 2px 2px 4px #ff00ff;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.7);
+      border: 4px dotted hotpink;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px pink;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      margin: 0.5rem 0;
+      padding: 1rem;
+      text-align: center;
+      background: linear-gradient(45deg, #ff69b4, #ffb6c1);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: 2px solid #fff;
+      box-shadow: 0 0 10px #ff69b4;
+      transition: 0.3s;
+      text-shadow: 1px 1px 2px #ff1493;
+    }
+    .button:hover {
+      background: linear-gradient(45deg, #ff1493, #ff69b4);
+      transform: scale(1.05) rotate(-2deg);
+    }
+    .counter {
+      text-align: right;
+      font-size: 1rem;
+      color: #ff69b4;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    .accordion {
+      background: #fff0f5;
+      margin: 1rem 0;
+      border: 3px dashed #ff69b4;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px pink inset;
+    }
+    .accordion summary {
+      padding: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+      background: #ffe4e1;
+      border-radius: 1rem;
+      color: #ff1493;
+      text-shadow: 1px 1px 2px #fff;
+    }
+    .accordion p {
+      padding: 1rem;
+      margin: 0;
+      color: #ff1493;
+    }
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      color: #ff00ff;
+      text-shadow: 2px 2px 5px #fff;
+      border-bottom: 3px dotted hotpink;
+      margin-top: 2rem;
+    }
+    /* キラキラデコ文字っぽいアニメ */
+    @keyframes sparkle {
+      0% { text-shadow: 0 0 5px #fff, 0 0 10px hotpink; }
+      50% { text-shadow: 0 0 20px #ff69b4, 0 0 30px #fff; }
+      100% { text-shadow: 0 0 5px #fff, 0 0 10px hotpink; }
+    }
+    header, h2 {
+      animation: sparkle 2s infinite alternate;
+    }
+  </style>
+</head>
+<body>
+  <header>従業員専用ページ</header>
+  <div class="container">
+    <div class="counter">アクセス数: <span id="visitCount">0</span> ✨</div>
+
+    <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button" target="_blank">研修動画一覧</a>
+    <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button" target="_blank">セミナー動画一覧</a>
+    <a href="https://docs.google.com/forms/d/1qQVR3gyzOgpCOBnpODx7hThGyGNn7Yv7y9V4q13hvVo/edit" class="button" target="_blank">アポ用動画送信フォーム</a>
+    <a href="https://docs.google.com/forms/d/1JXesz5skCjH-wn_W2IL6LnLSmYHeDE4sajsSWs5QCVI/edit" class="button" target="_blank">クローザー用動画送信フォーム</a>
+    <a href="https://docs.google.com/forms/d/1MtbSz4mrnEiIKTml7ClmARGxYqYBCNje4jXcPiVKpW0/edit" class="button" target="_blank">計上 段取り用動画送信フォーム</a>
+    <a href="https://docs.google.com/forms/d/1S53kcBd9FtDo8D_HFVNLR5Sv3t05p_6tckpsBVKDziw/edit" class="button" target="_blank">戸津さん研修送信用動画送信フォーム</a>
+    <a href="https://x.gd/EiM5d" class="button" target="_blank">セミナー動画用送信フォーム</a>
+    <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank">進捗確認</a>
+
+    <h2>お知らせ</h2>
+    <div class="accordion">
+      <details>
+        <summary>従業員向けお知らせ</summary>
+        <p>あとで編集</p>
+      </details>
+    </div>
+    <div class="accordion">
+      <details>
+        <summary>入社前の方向けお知らせ</summary>
+        <p>後で入れる</p>
+      </details>
+    </div>
+    <div class="accordion">
+      <details>
+        <summary>新入社員向けお知らせ</summary>
+        <p>後で入れる</p>
+      </details>
+    </div>
+  </div>
+
+  <script>
+    // アクセスカウンター（ブラウザローカル保存）
+    let count = localStorage.getItem("visitCount") || 0;
+    count++;
+    localStorage.setItem("visitCount", count);
+    document.getElementById("visitCount").textContent = count;
+  </script>
+</body>
+</html>
