@@ -9,11 +9,11 @@
       font-family: "Segoe UI", sans-serif;
       margin: 0;
       padding: 0;
-      background: #f7f9fc;
-      color: #333;
+      background-color: #fffaf0; /* 薄いオレンジの背景色 */
+      color: #5c4033; /* 落ち着いた茶系の文字色 */
     }
     header {
-      background: #2563eb;
+      background: #ffab73; /* 基調となるオレンジ色 */
       color: white;
       padding: 1rem;
       text-align: center;
@@ -24,82 +24,203 @@
       max-width: 900px;
       margin: 2rem auto;
       padding: 1rem;
+    }
+    h2 {
+      margin-top: 2rem;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #ffddb8; /* オレンジ系のボーダー */
+      padding-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+    }
+    .section {
+      margin-bottom: 2rem;
       background: white;
       border-radius: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .grid-container {
+      display: grid;
+      gap: 1rem;
+    }
+    .single-column {
+      grid-template-columns: 1fr;
+    }
+    .multi-column {
+      grid-template-columns: repeat(1, 1fr); /* Mobile */
+    }
+    @media (min-width: 768px) { /* Tablet */
+      .multi-column {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (min-width: 1024px) { /* PC */
+      .multi-column {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .button {
-      display: block;
-      width: 100%;
-      margin: 0.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       padding: 1rem;
       text-align: center;
-      background: #3b82f6;
+      background: #ffab73;
       color: white;
       text-decoration: none;
       border-radius: 0.5rem;
-      font-size: 1.1rem;
-      transition: 0.3s;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background-color 0.3s;
+      border: none;
+      width: 100%;
+      cursor: pointer;
     }
     .button:hover {
-      background: #1d4ed8;
+      background: #ff8a4d;
+    }
+    .button svg {
+      width: 1rem;  /* h-4 w-4 */
+      height: 1rem; /* h-4 w-4 */
     }
     .accordion {
-      background: #f9fafb;
-      margin: 1rem 0;
-      border: 1px solid #e5e7eb;
+      background: #fffaf5;
+      margin: 0.5rem 0;
+      border: 1px solid #ffddb8;
       border-radius: 0.5rem;
     }
     .accordion summary {
       padding: 1rem;
       cursor: pointer;
       font-weight: bold;
-      background: #e5e7eb;
+      background: #fffaf5;
       border-radius: 0.5rem;
     }
     .accordion p {
-      padding: 1rem;
+      padding: 0 1rem 1rem;
       margin: 0;
     }
-    h2 {
+    .warning-section {
+      background-color: #fff5f5;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .warning-section svg {
+      width: 1.5rem;
+      height: 1.5rem;
+      flex-shrink: 0;
+    }
+    .footer {
+      text-align: center;
       margin-top: 2rem;
-      font-size: 1.2rem;
-      border-bottom: 2px solid #e5e7eb;
-      padding-bottom: 0.5rem;
+      color: #a1a1aa;
     }
   </style>
 </head>
 <body>
   <header>従業員専用ページ</header>
   <div class="container">
-    <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button" target="_blank">研修動画一覧</a>
-    <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button" target="_blank">セミナー動画一覧</a>
-    <a href="https://docs.google.com/forms/d/1qQVR3gyzOgpCOBnpODx7hThGyGNn7Yv7y9V4q13hvVo/edit" class="button" target="_blank">アポ用動画送信フォーム</a>
-    <a href="https://docs.google.com/forms/d/1JXesz5skCjH-wn_W2IL6LnLSmYHeDE4sajsSWs5QCVI/edit" class="button" target="_blank">クローザー用動画送信フォーム</a>
-    <a href="https://docs.google.com/forms/d/1MtbSz4mrnEiIKTml7ClmARGxYqYBCNje4jXcPiVKpW0/edit" class="button" target="_blank">計上 段取り用動画送信フォーム</a>
-    <a href="https://docs.google.com/forms/d/1S53kcBd9FtDo8D_HFVNLR5Sv3t05p_6tckpsBVKDziw/edit" class="button" target="_blank">戸津さん研修送信用動画送信フォーム</a>
-    <a href="https://x.gd/EiM5d" class="button" target="_blank">セミナー動画用送信フォーム</a>
-    <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank">進捗確認</a>
 
-    <h2>お知らせ</h2>
-    <div class="accordion">
-      <details>
-        <summary>従業員向けお知らせ</summary>
-        <p>あとで編集</p>
-      </details>
+    <!-- 研修・セミナー動画一覧 -->
+    <div class="section">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        研修・セミナー動画
+      </h2>
+      <div class="grid-container single-column">
+        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button" target="_blank">研修動画一覧</a>
+        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button" target="_blank">セミナー動画一覧</a>
+      </div>
     </div>
-    <div class="accordion">
-      <details>
-        <summary>入社前の方向けお知らせ</summary>
-        <p>後で入れる</p>
-      </details>
+
+    <!-- 送信フォーム -->
+    <div class="section">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+        各種送信フォーム
+      </h2>
+      <div class="grid-container multi-column">
+        <a href="https://docs.google.com/forms/d/1qQVR3gyzOgpCOBnpODx7hThGyGNn7Yv7y9V4q13hvVo/edit" class="button" target="_blank">アポ用</a>
+        <a href="https://docs.google.com/forms/d/1JXesz5skCjH-wn_W2IL6LnLSmYHeDE4sajsSWs5QCVI/edit" class="button" target="_blank">クローザー用</a>
+        <a href="https://docs.google.com/forms/d/1MtbSz4mrnEiIKTml7ClmARGxYqYBCNje4jXcPiVKpW0/edit" class="button" target="_blank">計上 段取り用</a>
+        <a href="https://docs.google.com/forms/d/1S53kcBd9FtDo8D_HFVNLR5Sv3t05p_6tckpsBVKDziw/edit" class="button" target="_blank">戸津さん研修用</a>
+        <a href="https://x.gd/EiM5d" class="button" target="_blank">セミナー動画用</a>
+      </div>
     </div>
-    <div class="accordion">
-      <details>
-        <summary>新入社員向けお知らせ</summary>
-        <p>後で入れる</p>
-      </details>
+
+    <!-- 進捗確認 -->
+    <div class="section">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+        進捗確認
+      </h2>
+      <div class="grid-container single-column">
+        <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank">進捗確認シート</a>
+      </div>
     </div>
+
+    <!-- 注意事項 -->
+    <div class="section">
+        <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem; color: #ef4444;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            注意事項
+        </h2>
+        <div class="warning-section">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+            <div>後で追加</div>
+        </div>
+    </div>
+
+    <!-- お知らせ -->
+    <div class="section">
+      <h2>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-2.464 9.168-6.088 1.359-3.22.75-7.443-1.863-9.538C13.594.423 11.232 0 9.5 0 7.046 0 5.052.802 3.49 2.16c-1.562 1.359-2.26 3.58-1.863 5.814A4.001 4.001 0 017 13h1.832" /></svg>
+        お知らせ
+      </h2>
+      <div class="accordion">
+        <details>
+          <summary>従業員向けお知らせ</summary>
+          <p>あとで編集</p>
+        </details>
+      </div>
+      <div class="accordion">
+        <details>
+          <summary>入社前の方向けお知らせ</summary>
+          <p>後で入れる</p>
+        </details>
+      </div>
+      <div class="accordion">
+        <details>
+          <summary>新入社員向けお知らせ</summary>
+          <p>後で入れる</p>
+        </details>
+      </div>
+    </div>
+
+    <!-- 便利機能 -->
+    <div class="section">
+        <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            便利機能
+        </h2>
+        <div class="grid-container single-column">
+            <a href="https://bp-nari.github.io/tax-advisor-simulator/index.html" class="button" target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 3h.008v.008H8.25v-.008zm0 3h.008v.008H8.25v-.008zm3-6h.008v.008H11.25v-.008zm0 3h.008v.008H11.25v-.008zm0 3h.008v.008H11.25v-.008zm3-6h.008v.008H14.25v-.008zm0 3h.008v.008H14.25v-.008zm0 3h.008v.008H14.25v-.008zM4.5 12.75a.75.75 0 01.75-.75h13.5a.75.75 0 010 1.5H5.25a.75.75 0 01-.75-.75z" /></svg>
+                顧問料金シミュレーション
+            </a>
+        </div>
+    </div>
+
   </div>
+  <footer class="footer">
+    <p>アクセス数: <img src="https://profile-counter.glitch.me/bp-nari-employee-only-page/count.svg" alt="アクセスカウンター"></p>
+  </footer>
 </body>
 </html>
