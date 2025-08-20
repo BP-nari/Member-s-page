@@ -6,39 +6,49 @@
   <title>従業員専用ページ</title>
   <style>
     body {
-      font-family: "Segoe UI", sans-serif;
+      font-family: "Segoe UI", Meiryo, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #fffaf0; /* 薄いオレンジの背景色 */
-      color: #5c4033; /* 落ち着いた茶系の文字色 */
+      background-color: #FFFBF5; /* さらに薄いクリーム色に近い背景 */
+      color: #6D4C41; /* 落ち着いたブラウン */
     }
     header {
-      background: #ffab73; /* 基調となるオレンジ色 */
-      color: white;
-      padding: 1rem;
+      background: #FFDAB9; /* ピーチパフ -目に優しい薄いオレンジ */
+      color: #6D4C41;
+      padding: 1rem 1.5rem;
       text-align: center;
       font-size: 1.5rem;
-      font-weight: bold;
+      font-weight: 600;
+      border-bottom: 1px solid #F5EBE0;
     }
     .container {
-      max-width: 900px;
+      max-width: 960px;
       margin: 2rem auto;
-      padding: 1rem;
+      padding: 0 1rem;
     }
     h2 {
-      margin-top: 2rem;
-      font-size: 1.3rem;
-      border-bottom: 2px solid #ffddb8; /* オレンジ系のボーダー */
-      padding-bottom: 0.5rem;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+      font-weight: 600;
+      border-bottom: 2px solid #F5EBE0;
+      padding-bottom: 0.75rem;
       display: flex;
       align-items: center;
+      gap: 0.6rem;
+      color: #BCAAA4;
+    }
+    h2 svg {
+        width: 1.4rem;
+        height: 1.4rem;
     }
     .section {
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       background: white;
-      border-radius: 0.5rem;
+      border-radius: 0.75rem;
       padding: 1.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid #F5EBE0;
     }
     .grid-container {
       display: grid;
@@ -50,7 +60,7 @@
     .multi-column {
       grid-template-columns: repeat(1, 1fr); /* Mobile */
     }
-    @media (min-width: 768px) { /* Tablet */
+    @media (min-width: 640px) { /* Tablet */
       .multi-column {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -64,53 +74,73 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
-      padding: 1rem;
+      gap: 0.75rem;
+      padding: 0.9rem 1rem;
       text-align: center;
-      background: #ffab73;
-      color: white;
+      background-color: #FEF5ED; /* ボタンの背景色 */
+      color: #8D6E63; /* ボタンの文字色 */
       text-decoration: none;
       border-radius: 0.5rem;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 500;
-      transition: background-color 0.3s;
-      border: none;
+      transition: all 0.3s ease;
+      border: 1px solid #F5EBE0;
       width: 100%;
       cursor: pointer;
     }
     .button:hover {
-      background: #ff8a4d;
+      background-color: #F5EBE0;
+      border-color: #E0D5C9;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
     .button svg {
       width: 1rem;  /* h-4 w-4 */
       height: 1rem; /* h-4 w-4 */
     }
     .accordion {
-      background: #fffaf5;
+      background: #FFFCF9;
       margin: 0.5rem 0;
-      border: 1px solid #ffddb8;
+      border: 1px solid #F5EBE0;
       border-radius: 0.5rem;
     }
     .accordion summary {
       padding: 1rem;
       cursor: pointer;
-      font-weight: bold;
-      background: #fffaf5;
+      font-weight: 600;
+      color: #A1887F;
       border-radius: 0.5rem;
+      list-style: none; /* markerを消す */
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .accordion summary::-webkit-details-marker {
+      display: none;
+    }
+    .accordion summary::after {
+      content: '+';
+      font-size: 1.5rem;
+      transition: transform 0.3s;
+    }
+    .accordion[open] summary::after {
+      transform: rotate(45deg);
     }
     .accordion p {
       padding: 0 1rem 1rem;
       margin: 0;
+      color: #6D4C41;
     }
     .warning-section {
-      background-color: #fff5f5;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-      padding: 1.5rem;
+      background-color: #FFF5F5;
+      border: 1px solid #FFCDD2;
+      color: #C62828;
+      padding: 1.25rem;
       border-radius: 0.5rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      font-weight: 500;
     }
     .warning-section svg {
       width: 1.5rem;
@@ -120,7 +150,9 @@
     .footer {
       text-align: center;
       margin-top: 2rem;
-      color: #a1a1aa;
+      padding-bottom: 2rem;
+      color: #BDBDBD;
+      font-size: 0.9rem;
     }
   </style>
 </head>
@@ -131,19 +163,25 @@
     <!-- 研修・セミナー動画一覧 -->
     <div class="section">
       <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z" /></svg>
         研修・セミナー動画
       </h2>
       <div class="grid-container single-column">
-        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button" target="_blank">研修動画一覧</a>
-        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button" target="_blank">セミナー動画一覧</a>
+        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          研修動画一覧
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          セミナー動画一覧
+        </a>
       </div>
     </div>
 
     <!-- 送信フォーム -->
     <div class="section">
       <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
         各種送信フォーム
       </h2>
       <div class="grid-container multi-column">
@@ -158,22 +196,25 @@
     <!-- 進捗確認 -->
     <div class="section">
       <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" /></svg>
         進捗確認
       </h2>
       <div class="grid-container single-column">
-        <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank">進捗確認シート</a>
+        <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          進捗確認シート
+        </a>
       </div>
     </div>
 
     <!-- 注意事項 -->
     <div class="section">
         <h2>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem; color: #ef4444;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="color: #EF5350;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
             注意事項
         </h2>
         <div class="warning-section">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>
             <div>後で追加</div>
         </div>
     </div>
@@ -181,7 +222,7 @@
     <!-- お知らせ -->
     <div class="section">
       <h2>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-2.464 9.168-6.088 1.359-3.22.75-7.443-1.863-9.538C13.594.423 11.232 0 9.5 0 7.046 0 5.052.802 3.49 2.16c-1.562 1.359-2.26 3.58-1.863 5.814A4.001 4.001 0 017 13h1.832" /></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
         お知らせ
       </h2>
       <div class="accordion">
@@ -207,7 +248,7 @@
     <!-- 便利機能 -->
     <div class="section">
         <h2>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
             便利機能
         </h2>
         <div class="grid-container single-column">
