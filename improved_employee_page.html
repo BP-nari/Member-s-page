@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>従業員専用ページ</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-color: #8D6E63;
+      --secondary-color: #BCAAA4;
+      --accent-color: #FF8A65;
+      --background-color: #FFFBF5;
+      --card-background: #FFFFFF;
+      --text-primary: #5D4037;
+      --text-secondary: #8D6E63;
+      --border-color: #F5EBE0;
+      --hover-color: #F5EBE0;
+      --warning-bg: #FFF5F5;
+      --warning-border: #FFCDD2;
+      --warning-text: #C62828;
+      --shadow-light: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-medium: 0 4px 16px rgba(0,0,0,0.08);
+      --shadow-heavy: 0 8px 32px rgba(0,0,0,0.12);
+      --border-radius: 12px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      font-family: "Segoe UI", Meiryo, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, var(--background-color) 0%, #FFF8F0 100%);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* 固定ヘッダー */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-light);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-icon {
+      width: 2rem;
+      height: 2rem;
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* クイックナビゲーション */
+    .quick-nav {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .quick-nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      transition: var(--transition);
+    }
+
+    .quick-nav a:hover {
+      background: var(--hover-color);
+      color: var(--primary-color);
+    }
+
+    /* メインコンテンツ */
+    .main-content {
+      margin-top: 100px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 2rem 1rem;
+    }
+
+    /* セクション */
+    .section {
+      margin-bottom: 3rem;
+      background: var(--card-background);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-medium);
+      border: 1px solid var(--border-color);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .section:hover::before {
+      opacity: 1;
+    }
+
+    /* セクションヘッダー */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border-color);
+    }
+
+    .section-icon {
+      width: 3rem;
+      height: 3rem;
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: var(--shadow-light);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
+
+    /* グリッドレイアウト */
+    .grid-container {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .single-column {
+      grid-template-columns: 1fr;
+    }
+
+    .multi-column {
+      grid-template-columns: repeat(1, 1fr);
+    }
+
+    @media (min-width: 640px) {
+      .multi-column {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .multi-column {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    /* ボタン */
+    .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      background: linear-gradient(135deg, #FFFFFF, #FAFAFA);
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: var(--border-radius);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: var(--transition);
+      border: 2px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      min-height: 60px;
+    }
+
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: var(--transition);
+    }
+
+    .button:hover {
+      background: linear-gradient(135deg, var(--hover-color), #F0F0F0);
+      border-color: var(--primary-color);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-medium);
+      color: var(--primary-color);
+    }
+
+    .button:hover::before {
+      left: 100%;
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .button svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    /* アコーディオン */
+    .accordion {
+      background: var(--card-background);
+      margin: 1rem 0;
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .accordion:hover {
+      border-color: var(--primary-color);
+      box-shadow: var(--shadow-light);
+    }
+
+    .accordion summary {
+      padding: 1.5rem;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--primary-color);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #FAFAFA, #F5F5F5);
+      transition: var(--transition);
+      user-select: none;
+    }
+
+    .accordion summary:hover {
+      background: linear-gradient(135deg, var(--hover-color), #F0F0F0);
+    }
+
+    .accordion summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .accordion summary::after {
+      content: '+';
+      font-size: 1.5rem;
+      font-weight: 300;
+      transition: var(--transition);
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 50%;
+    }
+
+    .accordion[open] summary::after {
+      transform: rotate(45deg);
+      background: var(--accent-color);
+    }
+
+    .accordion .content {
+      padding: 1.5rem;
+      color: var(--text-primary);
+      background: var(--card-background);
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 警告セクション */
+    .warning-section {
+      background: linear-gradient(135deg, var(--warning-bg), #FFF0F0);
+      border: 2px solid var(--warning-border);
+      color: var(--warning-text);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-light);
+      position: relative;
+    }
+
+    .warning-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--warning-text);
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .warning-section svg {
+      width: 2rem;
+      height: 2rem;
+      flex-shrink: 0;
+      margin-top: 0.25rem;
+    }
+
+    /* フッター */
+    .footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--card-background);
+    }
+
+    /* リンクスタイル */
+    .linkify a {
+      color: var(--primary-color);
+      text-decoration: underline;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .linkify a:hover {
+      color: var(--accent-color);
+    }
+
+    /* スクロールバー */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--background-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-color);
+    }
+
+    /* レスポンシブ調整 */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .quick-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .main-content {
+        margin-top: 140px;
+        padding: 1rem;
+      }
+
+      .section {
+        padding: 1.5rem;
+      }
+
+      .section-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+      }
+
+      .button {
+        padding: 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* アニメーション */
+    .section {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* フォーカス状態 */
+    .button:focus,
+    .accordion summary:focus {
+      outline: 2px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    /* 特別なボタンスタイル */
+    .primary-button {
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      color: white;
+      border-color: var(--primary-color);
+    }
+
+    .primary-button:hover {
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    /* 便利機能セクション用のスタイル */
+    .utility-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .utility-card {
+      background: linear-gradient(135deg, #F8F9FA, #FFFFFF);
+      border: 2px solid var(--border-color);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .utility-card:hover {
+      border-color: var(--primary-color);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .utility-card h3 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    .utility-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    /* 赤字強調 */
+    .red-bold {
+      color: var(--warning-text);
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- 固定ヘッダー -->
+  <header class="header">
+    <div class="header-content">
+      <h1>
+        <div class="header-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width: 1.25rem; height: 1.25rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+          </svg>
+        </div>
+        従業員専用ページ
+      </h1>
+      <nav class="quick-nav">
+        <a href="#training">研修動画</a>
+        <a href="#forms">フォーム</a>
+        <a href="#progress">進捗確認</a>
+        <a href="#manual">マニュアル</a>
+        <a href="#notices">お知らせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="main-content">
+    <!-- 研修・セミナー動画一覧 -->
+    <section id="training" class="section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">研修・セミナー動画</h2>
+          <p class="section-subtitle">スキルアップのための動画コンテンツ</p>
+        </div>
+      </div>
+      <div class="grid-container single-column">
+        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=1321428309#gid=1321428309" class="button primary-button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+          </svg>
+          研修動画一覧
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1sLeOyYVNuhfgq_dKt8fvWzdBg8aaDgILg3kbcTpJL8o/edit?gid=194923865#gid=194923865" class="button primary-button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+          </svg>
+          セミナー動画一覧
+        </a>
+      </div>
+    </section>
+
+    <!-- 送信フォーム -->
+    <section id="forms" class="section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">各種送信フォーム</h2>
+          <p class="section-subtitle">業務に必要な各種フォーム</p>
+        </div>
+      </div>
+      <div class="grid-container multi-column">
+        <a href="https://docs.google.com/forms/d/1qQVR3gyzOgpCOBnpODx7hThGyGNn7Yv7y9V4q13hvVo/edit" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+          </svg>
+          アポ用
+        </a>
+        <a href="https://docs.google.com/forms/d/1JXesz5skCjH-wn_W2IL6LnLSmYHeDE4sajsSWs5QCVI/edit" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+          </svg>
+          クローザー用
+        </a>
+        <a href="https://docs.google.com/forms/d/1MtbSz4mrnEiIKTml7ClmARGxYqYBCNje4jXcPiVKpW0/edit" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+          </svg>
+          計上 段取り用
+        </a>
+        <a href="https://docs.google.com/forms/d/1S53kcBd9FtDo8D_HFVNLR5Sv3t05p_6tckpsBVKDziw/edit" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+          </svg>
+          戸津さん研修用
+        </a>
+        <a href="https://x.gd/EiM5d" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9A2.25 2.25 0 004.5 18.75z" />
+          </svg>
+          セミナー動画用
+        </a>
+      </div>
+    </section>
+
+    <!-- 進捗確認 -->
+    <section id="progress" class="section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">進捗確認</h2>
+          <p class="section-subtitle">学習・業務の進捗状況を確認</p>
+        </div>
+      </div>
+      <div class="grid-container single-column">
+        <a href="https://docs.google.com/spreadsheets/d/16dvI14GR-Aq2mTa5XNBKjDoSVqk1lrNH89FifFMI1uY/edit?gid=1291754199#gid=1291754199" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          進捗確認シート
+        </a>
+        <a href="https://docs.google.com/spreadsheets/d/1z9l2OVqdhQj6af2b2OvGA2sEFqIPbMrSkt8Kwads6rg/edit?resourcekey=&gid=1697559067#gid=1697559067" class="button" target="_blank" rel="noopener">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          セミナー用進捗確認シート
+        </a>
+      </div>
+    </section>
+
+    <!-- 注意事項 -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon" style="background: linear-gradient(135deg, #EF5350, #F44336);">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">注意事項</h2>
+          <p class="section-subtitle">記入時の重要な注意点</p>
+        </div>
+      </div>
+      <div class="warning-section">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+        </svg>
+        <div style="white-space: pre-line;">記入時の注意事項（必ずご確認ください）
+
+　お名前は「名字」と「名前」の間に、全角スペースを入れてください。
+　例：山田　太郎（ファイルメーカーと同じ表記）
+　※名字のみ、全角スペースなしでの記載は、転記・集計ができません。その場合は再送となります
+
+　環境依存文字（旧字体など）は使用できません。
+　例：×「﨑」「濵」 → ○「崎」「浜」「濱」
+
+　集計システムは「初回のデータ」を基に重複除外を行っています。
+　そのため、最初に送った内容が100文字未満で、後から100文字以上に修正して再送した場合でも、最初の内容が集計対象になります。
+　文字数によってポイントが異なる都合
+　100文字以下でも送信自体は可能ですが、0.5ポイントを狙う方は「文字数（100文字以上）」にご注意ください。
+
+　送り間違いによる修正・差し替えはできません。
+　記入内容はよくご確認のうえ、ご送信ください。</div>
+      </div>
+    </section>
+
+    <!-- マニュアル -->
+    <section id="manual" class="section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">マニュアル</h2>
+          <p class="section-subtitle">業務に必要な各種マニュアル・資料</p>
+        </div>
+      </div>
+      <div class="accordion">
+        <details>
+          <summary>各種マニュアル・資料</summary>
+          <div class="content">
+            <div class="grid-container single-column" style="padding-top: 0.5rem;">
+              <a href="https://docs.google.com/presentation/d/1t25vho-sYTm-ySWQtA1OfnWHv42ehXrx/edit?usp=drive_link&ouid=109109483806301657093&rtpof=true&sd=true" class="button" target="_blank" rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                入社前新人マニュアル
+              </a>
+              <a href="https://docs.google.com/presentation/d/1shvdNEXzOeX8lxSTloSyznyKo9noUBjm/edit?usp=drive_link&ouid=109109483806301657093&rtpof=true&sd=true" class="button" target="_blank" rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                マーケティング事業部マニュアル 基礎知識編
+              </a>
+              <a href="https://docs.google.com/presentation/d/1TBp68KSyIWuT_BVBG3jPTuAbjI0VXqCY/edit?usp=drive_link&ouid=109109483806301657093&rtpof=true&sd=true" class="button" target="_blank" rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                </svg>
+                マーケティング事業部リスト & フラグ
+              </a>
+              <a href="https://drive.google.com/file/d/1PKL1Kicl-9_-RGkFWXkDt9SAhArPFdBa/view?usp=drive_link" class="button" target="_blank" rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+                </svg>
+                暗記テスト
+              </a>
+              <a href="https://docs.google.com/presentation/d/1ehwMxoX9r0lnSHnYVvOyfJHU9NdwoMDw/edit?usp=drive_link&ouid=109109483806301657093&rtpof=true&sd=true" class="button" target="_blank" rel="noopener">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+                </svg>
+                暗記テスト（クローザー ）
+              </a>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- お知らせ -->
+    <section id="notices" class="section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">お知らせ</h2>
+          <p class="section-subtitle">重要な情報とアップデート</p>
+        </div>
+      </div>
+
+      <div class="accordion">
+        <details>
+          <summary>従業員向けお知らせ</summary>
+          <div class="content" style="white-space: pre-line;">
+動画による定性評価ポイントついて
+
+完了ポイントが不足し時給が下がる可能性がある場合の「救済ポイント」として動画視聴による定性評価ポイントについて
+以下の2種類の動画が対象です 。
+
+【1】セミナー動画
+視聴後、Googleフォームに100文字以上のコメントを送信（必須）で「1ポイント」
+
+【2】研修動画
+視聴で 「0.2ポイント」　Googleフォームへ参加や視聴した旨を送信
+さらに100文字以上のコメントをGoogleフォームで送信すると「0.5ポイント」に増加します
+
+イメージ：
+「視聴のみ」→0.2P
+「視聴＋100文字以上のコメント」→0.5P
+
+※研修動画の場合、「参加済」「視聴済」だけでも構いませんが、コメントをつけたほうがポイントが高くなります
+
+【注意事項】
+動画は100本以上あり、これだけで確定ステイできるほどの大量のポイント獲得が可能です
+ただし、一度に多くの動画ポイントを使い切ると、次で困った時の残基がなくなる恐れがあります
+ポイントの"繰り越し"はできません。過剰に送っても次回の査定には使えませんのでご注意ください
+
+【進捗確認について】
+セミナー動画・研修動画ともに、進捗はスプレッドシートで公開しています。
+          </div>
+        </details>
+      </div>
+
+      <div class="accordion">
+        <details>
+          <summary>入社前の方向けお知らせ</summary>
+          <div class="content linkify" style="white-space: pre-line;">★どの動画をみたらいいかわからない
+
+まず全員共通で
+マーケティング事業部　新人マニュアル
+
+Tアポ　基礎知識
+クローザー採用、社員の方は
+クローザー　基礎知識
+がおすすめです
+上記は過去動画なのでコメントフォームの送信欄はありません
+<div class="grid-container single-column" style="margin-top: .75rem;">
+  <a class="button" href="https://www.youtube.com/playlist?list=PLQKdXbOu53lzDHEO2w8MwztRcpSnWrze5" target="_blank" rel="noopener">▶ マーケティング事業部　新人マニュアル</a>
+  <a class="button" href="https://www.youtube.com/playlist?list=PLQKdXbOu53lwZ3PLe4y0NlCiGz3-EJe8k" target="_blank" rel="noopener">▶ Tアポ　基礎知識</a>
+  <a class="button" href="https://www.youtube.com/playlist?list=PLQKdXbOu53lzEhBf5mQzp12YHQMbMa5fp" target="_blank" rel="noopener">▶ クローザー　基礎知識</a>
+</div>
+
+<p><span class="red-bold">★入社時　必要な書類★</span></p>
+（入社時に提出できるよう準備をお願いいたします　派遣入社の方は不要です）
+
+・身分証明書のコピー（運転免許証、マイナンバーカード、パスポートなど）
+・雇用保険被保険者証（過去勤務先から受け取っている）
+・年金手帳（基礎年金番号が分かるもの）
+・マイナンバー通知カード／マイナンバーカード（ない場合は住民票）
+・扶養控除等申告書（給与所得者の扶養控除等申告書）
+・源泉徴収票（前職がある場合）
+・給与振込先口座の情報（通帳コピー)
+
+～車通勤の方～
+・車検証（自動車検査証）のコピー
+・自動車任意保険証券のコピー
+・自賠責保険証明書のコピー
+
+～社員入社のみ～
+・印鑑証明書
+          </div>
+        </details>
+      </div>
+
+      <div class="accordion">
+        <details>
+          <summary>新入社員向けお知らせ</summary>
+          <div class="content">現在お知らせはありません</div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 便利機能 -->
+    <section class="section">
+      <div class="section-header">
+        <div class="section-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <h2 class="section-title">便利機能</h2>
+          <p class="section-subtitle">業務効率化のためのツール</p>
+        </div>
+      </div>
+      <div class="utility-grid">
+        <div class="utility-card" onclick="window.open('https://www.google.com/search?q=site%3Adocs.google.com+%22従業員専用%22', '_blank')">
+          <h3>🔍 検索機能</h3>
+          <p>関連ドキュメントを素早く検索</p>
+        </div>
+        <div class="utility-card" onclick="copyToClipboard(window.location.href)">
+          <h3>📋 リンク共有</h3>
+          <p>このページのURLをコピー</p>
+        </div>
+        <div class="utility-card" onclick="window.print()">
+          <h3>🖨️ 印刷</h3>
+          <p>このページを印刷</p>
+        </div>
+        <div class="utility-card" onclick="toggleDarkMode()">
+          <h3>🌙 ダークモード</h3>
+          <p>表示モードを切り替え</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <p>&copy; 2024 従業員専用ページ. すべての権利を保有します。</p>
+    <p>最終更新: <span id="lastUpdated"></span></p>
+  </footer>
+
+  <script>
+    // 最終更新日を表示
+    document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('ja-JP');
+
+    // リンクコピー機能
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('リンクがコピーされました！');
+      });
+    }
+
+    // ダークモード切り替え（簡易版）
+    function toggleDarkMode() {
+      document.body.style.filter = document.body.style.filter === 'invert(1) hue-rotate(180deg)' ? '' : 'invert(1) hue-rotate(180deg)';
+    }
+
+    // スムーズスクロール
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // セクションのアニメーション
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.section').forEach(section => {
+      section.style.opacity = '0';
+      section.style.transform = 'translateY(30px)';
+      section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      observer.observe(section);
+    });
+
+    // キーボードナビゲーション
+    document.addEventListener('keydown', (e) => {
+      if (e.altKey) {
+        switch(e.key) {
+          case '1':
+            document.getElementById('training').scrollIntoView({ behavior: 'smooth' });
+            break;
+          case '2':
+            document.getElementById('forms').scrollIntoView({ behavior: 'smooth' });
+            break;
+          case '3':
+            document.getElementById('progress').scrollIntoView({ behavior: 'smooth' });
+            break;
+          case '4':
+            document.getElementById('manual').scrollIntoView({ behavior: 'smooth' });
+            break;
+          case '5':
+            document.getElementById('notices').scrollIntoView({ behavior: 'smooth' });
+            break;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
