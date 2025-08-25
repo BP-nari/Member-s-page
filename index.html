@@ -875,7 +875,7 @@ Tアポ　基礎知識
 
   <!-- フッター -->
   <footer class="footer">
-    <p>&copy; 2024 従業員専用ページ. すべての権利を保有します。</p>
+    <p>&copy; 2024 従業員専用ページ</p>
     <p>最終更新: <span id="lastUpdated"></span></p>
   </footer>
 
@@ -883,17 +883,8 @@ Tアポ　基礎知識
     // 最終更新日を表示
     document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('ja-JP');
 
-    // リンクコピー機能
-    function copyToClipboard(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('リンクがコピーされました！');
-      });
-    }
 
-    // ダークモード切り替え（簡易版）
-    function toggleDarkMode() {
-      document.body.style.filter = document.body.style.filter === 'invert(1) hue-rotate(180deg)' ? '' : 'invert(1) hue-rotate(180deg)';
-    }
+
 
     // スムーズスクロール
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
